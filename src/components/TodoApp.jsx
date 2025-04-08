@@ -11,11 +11,15 @@ function Todolist() {
     const [filter, setFilter] = useState('all');
     const [darkMode, setDarkMode] = useState(false);
 
-    useEffect(() => {
+    const fetchTasks = () => {
         fetch(baseURL)
             .then(response => response.json())
             .then(data => setTasks(data))
             .catch(error => console.error('Error fetching todos:', error));
+    };
+
+    useEffect(() => {
+        fetchTasks();
     }, []);
 
     useEffect(() => {
@@ -41,8 +45,8 @@ function Todolist() {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                setTasks((prevTasks) => [...prevTasks, data]);
+                fetchTasks();
+                setNewTask('');
             } else {
                 console.error('Failed to add task');
             }
@@ -54,7 +58,6 @@ function Todolist() {
     const handleAddTask = () => {
         if (newTask.trim() !== '') {
             addTask(newTask);
-            setNewTask('');
         }
     };
 
@@ -78,21 +81,10 @@ function Todolist() {
         ));
     };
 
-    const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`${baseURL}${id}/`, {
-                method: 'DELETE',
-            });
+    const handleDelete = (id) => {
+        setTasks(tasks.filter(task => task.id !== id));
+      };
     
-            if (response.ok) {
-                setTasks(tasks.filter(task => task.id !== id));
-            } else {
-                console.error('Failed to delete task from server');
-            }
-        } catch (error) {
-            console.error('Error deleting task:', error);
-        }
-    };
 
     const toggleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -108,10 +100,7 @@ function Todolist() {
         <div className={`todo-container ${darkMode ? 'dark-mode' : ''}`}>
             <div className="todo-header">
                 <h1>To-Do List</h1>
-                <button
-                    onClick={toggleDarkMode}
-                    className="theme-toggle"
-                >
+                <button onClick={toggleDarkMode} className="theme-toggle">
                     {darkMode ? '☀︎' : '⏾'}
                 </button>
             </div>
@@ -124,10 +113,7 @@ function Todolist() {
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
                 />
-                <button
-                    onClick={handleAddTask}
-                    className="add-button"
-                >
+                <button onClick={handleAddTask} className="add-button">
                     Add
                 </button>
             </div>
@@ -163,7 +149,6 @@ function Todolist() {
                                 checked={task.completed}
                                 onChange={() => toggleComplete(task.id)}
                             />
-
                             {editingId === task.id ? (
                                 <input
                                     type="text"
