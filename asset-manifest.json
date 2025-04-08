@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/JazelFrontend/static/css/main.c23b8ef3.css",
+    "main.js": "/JazelFrontend/static/js/main.06e8eb92.js",
+    "static/js/453.8ab44547.chunk.js": "/JazelFrontend/static/js/453.8ab44547.chunk.js",
+    "index.html": "/JazelFrontend/index.html",
+    "main.c23b8ef3.css.map": "/JazelFrontend/static/css/main.c23b8ef3.css.map",
+    "main.06e8eb92.js.map": "/JazelFrontend/static/js/main.06e8eb92.js.map",
+    "453.8ab44547.chunk.js.map": "/JazelFrontend/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c23b8ef3.css",
+    "static/js/main.06e8eb92.js"
+  ]
+}
